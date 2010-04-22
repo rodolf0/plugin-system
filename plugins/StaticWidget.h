@@ -4,7 +4,8 @@
 #include "Widget.h"
 
 
-class StaticWidget : public Widget {
+class StaticWidget :
+    public Widget {
   public:
 
     StaticWidget();
@@ -19,15 +20,19 @@ class StaticWidget : public Widget {
 
     void render() const;
 
-  protected:
     ~StaticWidget();
 
+  protected:
     int _x, _y, _width, _height;
     float _scale;
 
 };
 
-
+class StaticWidgetFactory : public WidgetFactory {
+  public:
+    bool init();
+    StaticWidget * create();
+};
 
 #endif /* _STATIC_WIDGET_H_ */
 

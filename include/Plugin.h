@@ -1,12 +1,7 @@
 #ifndef _PLUGIN_H_
 #define _PLUGIN_H_
-/*
- * Each plugin has the information from dynamic linking and
- * provides a factory for each of the classes it provides
- *
- */
 
-class Object {};
+#include <map>
 
 class Plugin {
   public:
@@ -27,19 +22,25 @@ class Plugin {
         char * _name;
     };
 
+    // Base class of what a factory makes
+    class Object {};
+
   private:
     // The library handle for the linker
     void *dlhand;
     // pointer to factory implementation
     Factory<Object> *factory;
 
+    static std::map<const char *, Plugin *> loadedPlugins;
+
   public:
-    Factory<Object> * getFactory(const char *f) const;
+    Factory<Object> * getFactory() const;
 
     // Plugin management
-    static int scandir(const char *path);
+    static Plugin * getPlugin(const char *p);
+    static bool scandir(const char *path);
     static Plugin * loadPlugin(const char *path, const char *name);
-    static int unloadPlugin(Plugin *p);
+    static void unloadPlugin(Plugin *p);
 };
 
 /* // Let each type define its creation methods
@@ -68,7 +69,7 @@ const char * Plugin::Factory<Interface>::name() const {
   return _name;
 }
 
-typedef Plugin::Factory<Object> * (*FactoryProc)(void);
+typedef Plugin::Factory<Plugin::Object> * (*FactoryProc)(void);
 
 
 #endif /* _PLUGIN_H_ */

@@ -1,20 +1,4 @@
-#include <Plugin.h>
 #include "StaticWidget.h"
-
-class StaticWidgetFactory : 
-    public Object,
-    public Plugin::Factory<Object> {
-
-  public:
-    bool init();
-    StaticWidget * create();
-};
-
-bool StaticWidgetFactory::init() { return true; }
-
-StaticWidget * StaticWidgetFactory::create() {
-  return new StaticWidget();
-}
 
 StaticWidgetFactory *myStaticWidgetFactory = 0;
 
@@ -27,7 +11,14 @@ extern "C" {
   }
 }
 
+bool StaticWidgetFactory::init() {
+  return true;
+}
+StaticWidget * StaticWidgetFactory::create() {
+  return new StaticWidget();
+}
 
+/*******************************************************/
 
 StaticWidget::StaticWidget() :
   _x(0), _y(0), _width(1), _height(1), _scale(1.0) {}

@@ -4,16 +4,17 @@
 
 int main(int argc, char *argv[]) {
 
-  Plugin *p;
-
-  Plugin::scandir("./plugins");
-  p = Plugin::loadPlugin("./plugins", "StaticWidget");
+  Plugin *p = Plugin::loadPlugin("./plugins", "StaticWidget");
 
   std::cout << "Plugin: " << p << std::endl;
 
-  Widget *w = (Widget*)p->getFactory("StaticWidget")->create();
+  Widget *w = (Widget*)p->getFactory()->create();
   
-  std::cout << w->width() << std::endl;
+  std::cout << w->width() << "x" << w->height() << std::endl;
+
+  p->getFactory()->destroy(w);
+
+  Plugin::unloadPlugin(p);
 
   return 0;
 }

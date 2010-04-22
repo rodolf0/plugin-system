@@ -61,7 +61,14 @@ Plugin * Plugin::loadPlugin(const char *path, const char *name) {
   return p;
 }
 
-int Plugin::scandir(const char *p) { 
+void Plugin::unloadPlugin(Plugin *p) {
+  if (p->factory)
+    delete p->factory;
+  dlclose(p->dlhand);
+  delete p;
+}
+
+bool Plugin::scandir(const char *p) { 
   struct dirent *d;
   DIR *dp;
 
@@ -75,7 +82,7 @@ int Plugin::scandir(const char *p) {
   return 0; 
 }
 
-Plugin::Factory<Object> * Plugin::getFactory(const char *f) const {
+Plugin::Factory<Plugin::Object> * Plugin::getFactory() const {
   return factory;
 }
 

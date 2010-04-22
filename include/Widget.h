@@ -3,7 +3,7 @@
 
 #include <Plugin.h>
 
-class Widget : public Object {
+class Widget : public Plugin::Object {
   public:
 
     virtual int x() const = 0;
@@ -12,12 +12,12 @@ class Widget : public Object {
     virtual int width() const = 0;
 
     virtual void render() const = 0;
-
-  protected:
-
     virtual ~Widget() = 0;
-
 };
+
+Widget::~Widget() {};
+
+typedef Plugin::Factory<Widget> WidgetFactory;
 
 #endif /* _WIDGET_H_ */
 
