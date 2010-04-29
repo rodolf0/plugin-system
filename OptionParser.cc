@@ -3,15 +3,17 @@
 #include <getopt.h>
 #include "OptionParser.h"
 
-static const int numopts = sizeof(Options) / sizeof(OptionParser::Option);
+int OptionParser::optionCount() {
+  return sizeof(Options) / sizeof(Option);
+}
 
 OptionParser::OptionParser(int argc, char *argv[]) {
-  struct option longOpts[numopts];
+  struct option longOpts[OptionParser::optionCount()];
   int i, ret = -1;
 
   memset(longOpts, 0x00, sizeof(longOpts));
 
-  for (i = 0; i < numopts; i++) {
+  for (i = 0; i < OptionParser::optionCount(); i++) {
     longOpts[i].name = Options[i].name();
     longOpts[i].has_arg = Options[i].takesArgument();
   }
@@ -53,7 +55,7 @@ void OptionParser::printOptions() const {
 
   std::cout.width(12);
 
-  for (i = 0; i < numopts; i++){
+  for (i = 0; i < OptionParser::optionCount(); i++){
     std::cout.width(14);
     std::cout.setf(std::ios::left);
     std::cout << Options[i].name();
@@ -64,14 +66,14 @@ void OptionParser::printOptions() const {
 
 const OptionParser::Option * OptionParser::getOption(const char *name) const {
   size_t namelen = strlen(name);
-  for (int i = 0; i < numopts; i++) {
+  for (int i = 0; i < OptionParser::optionCount(); i++) {
     if (strncmp(Options[i].name(), name, namelen) == 0)
       return Options+i;
   }
   return NULL;
 }
 
-
+#define _TEST_PARSER_
 #ifdef _TEST_PARSER_
 int main(int argc, char *argv[]) {
 

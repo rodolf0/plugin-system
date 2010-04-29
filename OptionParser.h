@@ -32,9 +32,14 @@ class OptionParser {
     void printOptions() const;
 
     const Option * getOption(const char *name) const;
+
+    static int optionCount();
+
+  private:
+    static Option Options[];
 };
 
-static OptionParser::Option Options[] = {
+OptionParser::Option OptionParser::Options[] = {
   OptionParser::Option("help"       , false, ""           , "this help"),
   OptionParser::Option("config"     ,  true, "-"          , "config file"),
   OptionParser::Option("layer"      ,  true, ""           , "[above|bellow] choose at wich layer to run"),
