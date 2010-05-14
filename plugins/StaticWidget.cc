@@ -5,7 +5,7 @@ StaticWidgetFactory *myStaticWidgetFactory = 0;
 extern "C" {
   StaticWidgetFactory * getStaticWidgetFactory() {
     if (!myStaticWidgetFactory) {
-      myStaticWidgetFactory = new StaticWidgetFactory;
+      myStaticWidgetFactory = new StaticWidgetFactory();
     }
     return myStaticWidgetFactory;
   }
@@ -21,7 +21,7 @@ StaticWidget * StaticWidgetFactory::create() {
 /*******************************************************/
 
 StaticWidget::StaticWidget() :
-  _x(0), _y(0), _width(1), _height(1), _scale(1.0) {}
+  _x(0), _y(0), _width(1), _height(7), _scale(1.0) {}
 
 StaticWidget::~StaticWidget() {}
 

@@ -1,4 +1,4 @@
-TARGET=pluginsys
+TARGET=wbar
 
 SOURCES = \
 	main.cc \
@@ -15,17 +15,8 @@ OBJECTS=$(SOURCES:.cc=.o)
 $(TARGET): $(OBJECTS)
 	$(CXX) $(LDFLAGS) $^ -o $@ 
 
-# include dependencies
-include $(subst .cc,.d,$(SOURCES))
-
-# make the .o files depend on .d files too (dependencies)
-%.d: %.cc
-	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$;									\
-	sed 's,\($*\).o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@;	\
-	rm -f $@.$$$$
-
 %.o: %.cc
 	$(CXX) -c $(CXXFLAGS) $^
 
 clean:
-	rm -f *.o *.d $(TARGET)
+	rm -f *.o $(TARGET)

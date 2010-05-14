@@ -1,20 +1,20 @@
 #include <iostream>
 #include <Plugin.h>
 #include <Widget.h>
+#include <Container.h>
 
 int main(int argc, char *argv[]) {
 
-  Plugin *p = Plugin::loadPlugin("./plugins", "StaticWidget");
+  //Plugin *c = Plugin::loadPlugin("./plugins", "WaveContainer");
+  if (Plugin::load("./plugins", "StaticWidget")) {
+    Plugin::Factory<Plugin::Object> &wf = Plugin::get("StaticWidget")->getFactory();
 
-  std::cout << "Plugin: " << p << std::endl;
+    Widget *w = (Widget*)wf.create();
+    std::cout << w->width() << "x" << w->height() << std::endl;
+    wf.destroy(w);
 
-  Widget *w = (Widget*)p->getFactory()->create();
-  
-  std::cout << w->width() << "x" << w->height() << std::endl;
-
-  p->getFactory()->destroy(w);
-
-  Plugin::unloadPlugin(p);
+    Plugin::unload("StaticWidget");
+  }
 
   return 0;
 }
