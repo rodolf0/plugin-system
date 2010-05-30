@@ -1,11 +1,9 @@
 #ifndef _STATIC_WIDGET_H_
 #define _STATIC_WIDGET_H_
 
-#include "Widget.h"
+#include "Plugin.h"
 
-
-class StaticWidget :
-    public Widget {
+class StaticWidget : public Widget {
   public:
 
     StaticWidget();
@@ -31,7 +29,7 @@ class StaticWidget :
 class StaticWidgetFactory : public WidgetFactory {
   public:
     bool init();
-    StaticWidget * create();
+    StaticWidget * create() const;
 };
 
 #endif /* _STATIC_WIDGET_H_ */

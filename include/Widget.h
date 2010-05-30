@@ -1,9 +1,7 @@
 #ifndef _WIDGET_H_
 #define _WIDGET_H_
 
-#include <Plugin.h>
-
-class Widget : public Plugin::Object {
+class Widget {
   public:
 
     virtual int x() const = 0;
@@ -12,12 +10,8 @@ class Widget : public Plugin::Object {
     virtual int width() const = 0;
 
     virtual void render() const = 0;
-    virtual ~Widget() = 0;
+    virtual ~Widget() {};
 };
-
-Widget::~Widget() {};
-
-typedef Plugin::Factory<Widget> WidgetFactory;
 
 #endif /* _WIDGET_H_ */
 

@@ -1,20 +1,11 @@
 #include "StaticWidget.h"
 
-StaticWidgetFactory *myStaticWidgetFactory = 0;
-
-extern "C" {
-  StaticWidgetFactory * getStaticWidgetFactory() {
-    if (!myStaticWidgetFactory) {
-      myStaticWidgetFactory = new StaticWidgetFactory();
-    }
-    return myStaticWidgetFactory;
-  }
-}
+FACTORY_REGISTRATION_ABI00(StaticWidgetFactory)
 
 bool StaticWidgetFactory::init() {
   return true;
 }
-StaticWidget * StaticWidgetFactory::create() {
+StaticWidget * StaticWidgetFactory::create() const {
   return new StaticWidget();
 }
 

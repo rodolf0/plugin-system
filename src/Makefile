@@ -7,7 +7,7 @@ SOURCES = \
 # let make search for include files in include dir
 vpath %.h include
 
-CXXFLAGS=-I./include -Wall
+CXXFLAGS=-I../include -Wall
 LDFLAGS=-ldl
 
 OBJECTS=$(SOURCES:.cc=.o)

@@ -1,5 +1,5 @@
-#include <string>
 #include <cstring>
+#include <cstdio>
 #include <iostream>
 #include <dlfcn.h>
 #include <sys/types.h>
@@ -20,14 +20,16 @@ bool Plugin::load(const char *path, const char *name) {
 
   // check plugin file existance
   struct stat finfo;
-  std::string file = std::string(path) + "/lib" + name + ".so";
-  if (stat(file.c_str(), &finfo) != 0) {
+  char file[256];
+  snprintf(file, sizeof(file), "%s/lib%s.so", path, name);
+  if (stat(file, &finfo) != 0) {
     std::cout << "PM: Couldn't stat plugin: " << file << std::endl;
     return false;
   }
 
-  std::string sym = std::string("get") + name + "Factory";
-  Plugin *p = Plugin::create(name, file.c_str(), sym.c_str());
+  char sym[256];
+  snprintf(sym, sizeof(sym), "get%sFactory", name);
+  Plugin *p = Plugin::create(name, file, sym);
 
   if (p) {
     // add the fresh new plugin to our map
@@ -56,8 +58,9 @@ bool Plugin::unload(const char *name) {
 
 void Plugin::destroy(Plugin *p) {
   // destroy the factory created by the getFactory() call
-  // we delete it since we provide the macro to build it TODO: macro
+  // we delete it since we provide the macro to build it.
   p->_factory->fini();
+  // TODO: dlsym('CloseFactory')
   delete p->_factory;
   dlclose(p->_dlhandle);
   delete p;
@@ -85,7 +88,7 @@ Plugin * Plugin::create(const char *name,
         dlclose(dlhand);
       } else {
         // get the factory that the plugin provides
-        Factory<Object> *factory = getFactory();
+        BaseFactory *factory = (*getFactory)();
         if (!factory) {
           std::cout << "PM: Couldn't load factory: " << lib << std::endl;
           dlclose(dlhand);
@@ -108,7 +111,7 @@ Plugin * Plugin::create(const char *name,
 
 // -------------------------------------------------------------- //
 
-Plugin::Plugin(const char *name, void *dlhand, Factory<Object> *factory)
+Plugin::Plugin(const char *name, void *dlhand, BaseFactory *factory)
   : _dlhandle(dlhand), _factory(factory) {
 
   size_t len = strlen(name);
@@ -121,13 +124,12 @@ Plugin::~Plugin() { delete [] _name; }
 
 // -------------------------------------------------------------- //
 
-const Plugin * Plugin::get(const char *name) 
-{ return loadedPlugins[name]; }
-
 const char * Plugin::name() const { return _name; }
+const Plugin::BaseFactory * Plugin::factory() const { return _factory; }
 
-Plugin::Factory<Plugin::Object> & Plugin::getFactory() const
-{ return *_factory; }
+const Plugin * Plugin::get(const char *name) { 
+  return loadedPlugins[name];
+}
 
 #if 0
 bool Plugin::scandir(const char *p) { 
