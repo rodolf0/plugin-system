@@ -11,6 +11,8 @@
 
 #include <map>
 #include <cstring>
+#include <iostream>
+#include <typeinfo>
 
 #define FACTORY_REGISTRATION_ABI00(factoryClass) \
   Plugin::BaseFactory *my##factoryClass = 0;     \
@@ -96,6 +98,10 @@ const Plugin::Factory<T> * Plugin::Factory<T>::get(const char *name) {
       if (const Plugin::Factory<T> *f =
                 dynamic_cast<const Plugin::Factory<T> *>(bf)) {
         return f;
+      } else {
+        std::cout << "PM: Factory '" << name 
+                  << "' isn't derived from the correct type ('"
+                  << typeid(T).name() << "').\n";
       }
     }
   }
