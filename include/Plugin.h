@@ -63,6 +63,7 @@ class Plugin {
     // Users are not allowed to manage plugins directly
     Plugin(const char *name, void *dlhand, BaseFactory *factory);
     Plugin & operator=(const Plugin &); // don't define this: dissallowed.
+  public:
     ~Plugin();
 
   private:
@@ -99,7 +100,7 @@ const Plugin::Factory<T> * Plugin::Factory<T>::get(const char *name) {
                 dynamic_cast<const Plugin::Factory<T> *>(bf)) {
         return f;
       } else {
-        std::cout << "PM: Factory '" << name 
+        std::cout << "PM: Factory '" << name
                   << "' isn't derived from the correct type ('"
                   << typeid(T).name() << "').\n";
       }

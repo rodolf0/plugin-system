@@ -127,12 +127,12 @@ Plugin::~Plugin() { delete [] _name; }
 const char * Plugin::name() const { return _name; }
 const Plugin::BaseFactory * Plugin::factory() const { return _factory; }
 
-const Plugin * Plugin::get(const char *name) { 
+const Plugin * Plugin::get(const char *name) {
   return loadedPlugins[name];
 }
 
 #if 0
-bool Plugin::scandir(const char *p) { 
+bool Plugin::scandir(const char *p) {
   struct dirent *d;
   DIR *dp;
 
@@ -143,7 +143,7 @@ bool Plugin::scandir(const char *p) {
 
   closedir(dp);
 
-  return 0; 
+  return 0;
 }
 #endif
 
