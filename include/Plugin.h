@@ -109,10 +109,6 @@ const Plugin::Factory<T> * Plugin::Factory<T>::get(const char *name) {
   return NULL;
 }
 
-// describe plugable types
-#include "Widget.h"
-typedef Plugin::Factory<Widget> WidgetFactory;
-
 #endif /* _PLUGIN_H_ */
 
 /* vim: set sw=2 sts=2 : */

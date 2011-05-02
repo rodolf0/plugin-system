@@ -2,6 +2,7 @@
 #define _STATIC_WIDGET_H_
 
 #include "Plugin.h"
+#include "Widget.h"
 
 class StaticWidget : public Widget {
   public:
@@ -26,7 +27,7 @@ class StaticWidget : public Widget {
 
 };
 
-class StaticWidgetFactory : public WidgetFactory {
+class StaticWidgetFactory : public Plugin::Factory<Widget> {
   public:
     bool init();
     StaticWidget * create() const;
