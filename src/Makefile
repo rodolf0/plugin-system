@@ -13,7 +13,7 @@ LDFLAGS=-ldl
 OBJECTS=$(SOURCES:.cc=.o)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $^ -o $@ 
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 %.o: %.cc
 	$(CXX) -c $(CXXFLAGS) $^
